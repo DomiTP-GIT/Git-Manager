@@ -15,9 +15,6 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
-    <item row="5" column="0">
-     <widget class="QListWidget" name="projects"/>
-    </item>
     <item row="2" column="0">
      <layout class="QHBoxLayout" name="horizontalLayout">
       <property name="topMargin">
@@ -25,18 +22,24 @@
       </property>
       <item>
        <widget class="QLabel" name="label">
+        <property name="toolTip">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Muestra los proyectos que se encuentran detro de la ruta de búsqueda&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
         <property name="text">
          <string>Tus proyectos</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="pushButton">
+       <widget class="QPushButton" name="btnClonar">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
+        </property>
+        <property name="toolTip">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Descarga/clona nuevos repositorios a tú ordenador&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
         <property name="text">
          <string>Clonar repositorios</string>
@@ -61,13 +64,16 @@
       </item>
      </layout>
     </item>
-    <item row="6" column="0">
+    <item row="7" column="0">
      <layout class="QHBoxLayout" name="horizontalLayout_2">
       <property name="topMargin">
        <number>0</number>
       </property>
       <item>
        <widget class="QLineEdit" name="rutaEdit">
+        <property name="toolTip">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Ruta de búsqueda de repositorios&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
         <property name="readOnly">
          <bool>false</bool>
         </property>
@@ -81,10 +87,72 @@
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
+        <property name="toolTip">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Seleccionar una nueva ruta para buscar dispositivos&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
         <property name="text">
          <string>Seleccionar ruta</string>
         </property>
        </widget>
+      </item>
+     </layout>
+    </item>
+    <item row="5" column="0">
+     <widget class="QListWidget" name="projects"/>
+    </item>
+    <item row="6" column="0">
+     <layout class="QHBoxLayout" name="horizontalLayout_3">
+      <property name="sizeConstraint">
+       <enum>QLayout::SetDefaultConstraint</enum>
+      </property>
+      <property name="topMargin">
+       <number>0</number>
+      </property>
+      <item>
+       <widget class="QLabel" name="label_2">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text">
+         <string>Ruta de búsqueda:</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="btnInfo">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="toolTip">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Se buscarán todos los repositorios git que se encuentren en cualquier subruta de esta ruta.&lt;/p&gt;&lt;p&gt;La ruta por defecto es el home del usuario que ejecuta el programa.&lt;/p&gt;&lt;p&gt;No podremos obtener información de los proyectos si no tiene los permisos necesarios en dichas carpetas.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset>
+          <normaloff>resources/info.png</normaloff>resources/info.png</iconset>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
       </item>
      </layout>
     </item>
@@ -103,6 +171,14 @@
     <property name="title">
      <string>Archivo</string>
     </property>
+    <widget class="QMenu" name="menuModo">
+     <property name="title">
+      <string>Modo</string>
+     </property>
+     <addaction name="actionClaro"/>
+     <addaction name="actionOscuro"/>
+    </widget>
+    <addaction name="menuModo"/>
    </widget>
    <widget class="QMenu" name="menuAyuda">
     <property name="title">
@@ -122,6 +198,28 @@
   <action name="actionAcerca_de">
    <property name="text">
     <string>Acerca de</string>
+   </property>
+  </action>
+  <action name="actionClaro">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Claro</string>
+   </property>
+   <property name="toolTip">
+    <string>Activa el modo claro de la aplicación</string>
+   </property>
+  </action>
+  <action name="actionOscuro">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Oscuro</string>
+   </property>
+   <property name="toolTip">
+    <string>Activa el modo oscuro en la aplicación</string>
    </property>
   </action>
  </widget>

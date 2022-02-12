@@ -3,22 +3,27 @@ import os
 import sys
 from pathlib import Path
 
-from PySide6.QtGui import QIcon
+from PySide6.QtGui import QIcon, Qt, QActionGroup
 from PySide6.QtUiTools import QUiLoader
 from PySide6.QtWidgets import QApplication, QMainWindow, QAbstractItemView, QListWidgetItem, QFileDialog
+import qdarkstyle
 
 
-class GithubManager(QMainWindow):
+class GitManager(QMainWindow):
     def __init__(self):
-        super(GithubManager, self).__init__()
+        super(GitManager, self).__init__()
         self.window = self.load_ui()
-        self.window.setWindowTitle("Git Manager")
-        self.window.setWindowIcon(QIcon(os.path.join(os.path.dirname(__file__), "resources/githubmanager.png")))
 
         self.home = str(Path.home())
         self.ruta_buscar = self.home
 
+        # Carga la configuración
         self.config()
+
+        # Inicia la ventana (Iniciará vacía y cuando se carguen los proyectos se iniciará completamente)
+        self.window.show()
+
+        # Carga los proyectos
         self.load_projects()
 
     def load_ui(self):
@@ -30,24 +35,12 @@ class GithubManager(QMainWindow):
         # ui_file.close()
 
     def config(self):
-        self.window.projects.setStyleSheet("QListWidget"
-                                           "{"
-                                           "background-color : rgb(206, 206, 206)"
-                                           "}"
-                                           "QListView::item"
+        self.window.setWindowTitle("Git Manager")
+        self.window.setWindowIcon(QIcon(os.path.join(os.path.dirname(__file__), "resources/githubmanager.png")))
+        self.window.projects.setStyleSheet("QListView::item"
                                            "{"
                                            "padding : 10px;"
                                            "border-bottom : 0.5px solid rgb(184, 184, 184);"
-                                           "background-color : rgb(255, 255, 255)"
-                                           "}"
-                                           "QListView::item:selected"
-                                           "{"
-                                           "background-color : rgb(59, 168, 255);"
-                                           "color : black"
-                                           "}"
-                                           "QListView::item:hover"
-                                           "{"
-                                           "background-color : rgb(59, 168, 255);"
                                            "}"
                                            )
         self.window.projects.setAlternatingRowColors(True)
@@ -55,6 +48,15 @@ class GithubManager(QMainWindow):
         self.window.btnRuta.clicked.connect(self.get_route)
         self.window.rutaEdit.setText(self.ruta_buscar)
         self.window.btn_update.clicked.connect(self.load_projects)
+
+        # Cambio de modo interfaz
+        modo_claro_oscuro = QActionGroup(self)
+        modo_claro_oscuro.setExclusive(True)
+        modo_claro_oscuro.addAction(self.window.actionClaro)
+        modo_claro_oscuro.addAction(self.window.actionOscuro)
+        self.window.actionClaro.setChecked(True)
+        self.window.actionClaro.triggered.connect(self.cambiar_claro)
+        self.window.actionOscuro.triggered.connect(self.cambiar_oscuro)
 
     def load_projects(self):
         for root, subdirs, files in os.walk(self.ruta_buscar):
@@ -79,9 +81,14 @@ class GithubManager(QMainWindow):
     def set_route(self, text):
         self.ruta_buscar = text
 
+    def cambiar_claro(self):
+        self.window.setStyleSheet("")
+
+    def cambiar_oscuro(self):
+        self.window.setStyleSheet(qdarkstyle.load_stylesheet_pyside2())
+
 
 if __name__ == "__main__":
     app = QApplication([])
-    widget = GithubManager()
-    widget.window.show()
+    widget = GitManager()
     sys.exit(app.exec())
