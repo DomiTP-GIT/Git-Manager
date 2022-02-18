@@ -3,10 +3,9 @@ import os
 import sys
 from pathlib import Path
 
-import qdarkstyle
+import qdarktheme
 from PySide6.QtCore import Slot, QThreadPool, QSize
 from PySide6.QtGui import QIcon, QActionGroup, QKeySequence, QMovie
-from PySide6.QtUiTools import QUiLoader
 from PySide6.QtWidgets import QApplication, QMainWindow, QAbstractItemView, QListWidgetItem, QFileDialog
 
 from Ui_main import Ui_gitManager
@@ -65,13 +64,13 @@ class GitManager(QMainWindow):
         modo_claro_oscuro.setExclusive(True)
         modo_claro_oscuro.addAction(self.window.actionClaro)
         modo_claro_oscuro.addAction(self.window.actionOscuro)
-        self.window.actionClaro.setChecked(True)
         self.window.actionClaro.triggered.connect(self.cambiar_claro)
         self.window.actionOscuro.triggered.connect(self.cambiar_oscuro)
+        self.window.actionOscuro.setChecked(True)
+        self.cambiar_oscuro()
 
     @Slot()
     def load_projects(self):
-        self.window.loadingGif.setHidden(False)
         self.window.projects.clear()
         for root, subdirs, files in os.walk(self.ruta_buscar):
             for d in subdirs:
@@ -85,9 +84,12 @@ class GitManager(QMainWindow):
                 else:
                     print(d + " No permission")
         self.window.loadingGif.setHidden(True)
+        self.window.btnUpdate.setEnabled(True)
 
     @Slot()
     def thread_load_projects(self):
+        self.window.loadingGif.setHidden(False)
+        self.window.btnUpdate.setDisabled(True)
         self.thread_manager.start(self.load_projects)
 
     def get_route(self):
@@ -102,35 +104,20 @@ class GitManager(QMainWindow):
         # Aplicar el estilo a los QListView
 
     def cambiar_claro(self):
-        self.setStyleSheet("")
-        self.window.projects.setStyleSheet("QListView::item"
-                                           "{"
-                                           "padding : 10px;"
-                                           "border-bottom : 0.5px solid rgb(184, 184, 184);"
-                                           "color : black"
-                                           "}"
-                                           "QListView::hover"
-                                           "{"
-                                           "color : black"
-                                           "}"
-                                           "QListItemView"
-                                           "{"
-                                           "color : black"
-                                           "}"
-                                           )
+        self.setStyleSheet(qdarktheme.load_stylesheet("light"))
+        self.window.labelTusProyectos.setStyleSheet("""QLabel
+                                                       {
+                                                       font: 700 18pt "Segoe UI";
+                                                       }
+                                                       """)
 
     def cambiar_oscuro(self):
-        self.setStyleSheet(qdarkstyle.load_stylesheet_pyside2())
-        self.window.projects.setStyleSheet("QListView::item"
-                                           "{"
-                                           "padding : 10px;"
-                                           "border-bottom : 0.5px solid rgb(184, 184, 184);"
-                                           "}"
-                                           "QListView::hover"
-                                           "{"
-                                           "color : white"
-                                           "}"
-                                           )
+        self.setStyleSheet(qdarktheme.load_stylesheet())
+        self.window.labelTusProyectos.setStyleSheet("""QLabel
+                                                       {
+                                                       font: 700 18pt "Segoe UI";
+                                                       }
+                                                       """)
 
 
 if __name__ == "__main__":

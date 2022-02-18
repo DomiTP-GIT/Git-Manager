@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'main.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.2.3
+## Created by: Qt User Interface Compiler version 6.2.1
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -43,12 +43,10 @@ class Ui_gitManager(object):
         self.horizontalLayout = QHBoxLayout()
         self.horizontalLayout.setObjectName(u"horizontalLayout")
         self.horizontalLayout.setContentsMargins(-1, 0, -1, -1)
-        self.label = QLabel(self.centralwidget)
-        self.label.setObjectName(u"label")
-        self.label.setStyleSheet(u"color: rgb(0, 0, 0);\n"
-"font: 700 18pt \"Segoe UI\";")
+        self.labelTusProyectos = QLabel(self.centralwidget)
+        self.labelTusProyectos.setObjectName(u"labelTusProyectos")
 
-        self.horizontalLayout.addWidget(self.label)
+        self.horizontalLayout.addWidget(self.labelTusProyectos)
 
         self.btnClonar = QPushButton(self.centralwidget)
         self.btnClonar.setObjectName(u"btnClonar")
@@ -172,9 +170,9 @@ class Ui_gitManager(object):
         self.actionOscuro.setToolTip(QCoreApplication.translate("gitManager", u"Activa el modo oscuro en la aplicaci\u00f3n", None))
 #endif // QT_CONFIG(tooltip)
 #if QT_CONFIG(tooltip)
-        self.label.setToolTip(QCoreApplication.translate("gitManager", u"<html><head/><body><p>Muestra los proyectos que se encuentran detro de la ruta de b\u00fasqueda</p></body></html>", None))
+        self.labelTusProyectos.setToolTip(QCoreApplication.translate("gitManager", u"<html><head/><body><p>Muestra los proyectos que se encuentran detro de la ruta de b\u00fasqueda</p></body></html>", None))
 #endif // QT_CONFIG(tooltip)
-        self.label.setText(QCoreApplication.translate("gitManager", u"Tus proyectos", None))
+        self.labelTusProyectos.setText(QCoreApplication.translate("gitManager", u"Tus proyectos", None))
 #if QT_CONFIG(tooltip)
         self.btnClonar.setToolTip(QCoreApplication.translate("gitManager", u"<html><head/><body><p>Descarga/clona nuevos repositorios a t\u00fa ordenador</p></body></html>", None))
 #endif // QT_CONFIG(tooltip)
