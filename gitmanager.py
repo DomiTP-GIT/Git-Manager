@@ -10,6 +10,7 @@ from PySide6.QtWidgets import QApplication, QMainWindow, QAbstractItemView, QLis
 
 from Ui_main import Ui_gitManager
 from clone import Clone
+from project import Project
 
 
 class GitManager(QMainWindow):
@@ -23,6 +24,7 @@ class GitManager(QMainWindow):
 
         self.thread_manager = QThreadPool()
         self.clonar = QWidget()
+        self.proyecto = QWidget()
 
         # Carga la configuración
         self.config()
@@ -82,6 +84,7 @@ class GitManager(QMainWindow):
                         self.ui.projects.addItem(item)
                 else:
                     print(d + " No permission")
+        self.ui.projects.clicked.connect(self.item_clicked)
         self.ui.loadingGif.setHidden(True)
         self.ui.btnUpdate.setEnabled(True)
 
@@ -90,6 +93,10 @@ class GitManager(QMainWindow):
         self.ui.loadingGif.setHidden(False)
         self.ui.btnUpdate.setDisabled(True)
         self.thread_manager.start(self.load_projects)
+
+    def item_clicked(self):
+        item = self.ui.projects.currentItem()
+        self.project(item.toolTip())
 
     def get_route(self):
         nueva_ruta = QFileDialog.getExistingDirectory(self, "Seleccionar carpeta", self.home)
@@ -105,9 +112,14 @@ class GitManager(QMainWindow):
         self.clonar = Clone(self.ui.actionOscuro.isChecked())
         self.clonar.show()
 
+    def project(self, project):
+        self.proyecto = Project(project, self.ui.actionOscuro.isChecked())
+        self.proyecto.show()
+
     def cambiar_claro(self):
         self.setStyleSheet(qdarktheme.load_stylesheet("light"))
         self.clonar.setStyleSheet(qdarktheme.load_stylesheet("light"))
+        self.proyecto.setStyleSheet(qdarktheme.load_stylesheet("light"))
         self.ui.btnInfo.setIcon(QIcon(os.path.join(os.path.dirname(__file__), "resources/info.png")))
         self.ui.labelTusProyectos.setStyleSheet("""QLabel
                                                        {
@@ -118,6 +130,7 @@ class GitManager(QMainWindow):
     def cambiar_oscuro(self):
         self.setStyleSheet(qdarktheme.load_stylesheet())
         self.clonar.setStyleSheet(qdarktheme.load_stylesheet())
+        self.proyecto.setStyleSheet(qdarktheme.load_stylesheet())
         self.ui.btnInfo.setIcon(QIcon(os.path.join(os.path.dirname(__file__), "resources/info_w.png")))
         self.ui.labelTusProyectos.setStyleSheet("""QLabel
                                                        {
