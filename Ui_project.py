@@ -17,13 +17,14 @@ from PySide6.QtGui import (QAction, QBrush, QColor, QConicalGradient,
     QPainter, QPalette, QPixmap, QRadialGradient,
     QTransform)
 from PySide6.QtWidgets import (QApplication, QFormLayout, QHBoxLayout, QLabel,
-    QLineEdit, QSizePolicy, QVBoxLayout, QWidget)
+    QLineEdit, QPushButton, QSizePolicy, QSpacerItem,
+    QVBoxLayout, QWidget)
 
 class Ui_project(object):
     def setupUi(self, project):
         if not project.objectName():
             project.setObjectName(u"project")
-        project.resize(800, 600)
+        project.resize(800, 750)
         self.actionConfiguraci_n = QAction(project)
         self.actionConfiguraci_n.setObjectName(u"actionConfiguraci_n")
         self.actionAcerca_de = QAction(project)
@@ -213,6 +214,33 @@ class Ui_project(object):
 
         self.verticalLayout_2.addLayout(self.verticalLayout)
 
+        self.horizontalLayout_3 = QHBoxLayout()
+        self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
+        self.horizontalLayout_3.setContentsMargins(-1, 0, -1, -1)
+        self.actualizarInformacionBtn = QPushButton(project)
+        self.actualizarInformacionBtn.setObjectName(u"actualizarInformacionBtn")
+        sizePolicy2 = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
+        sizePolicy2.setHorizontalStretch(0)
+        sizePolicy2.setVerticalStretch(0)
+        sizePolicy2.setHeightForWidth(self.actualizarInformacionBtn.sizePolicy().hasHeightForWidth())
+        self.actualizarInformacionBtn.setSizePolicy(sizePolicy2)
+
+        self.horizontalLayout_3.addWidget(self.actualizarInformacionBtn)
+
+        self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+
+        self.horizontalLayout_3.addItem(self.horizontalSpacer)
+
+        self.abrirCarpetaBtn = QPushButton(project)
+        self.abrirCarpetaBtn.setObjectName(u"abrirCarpetaBtn")
+        sizePolicy2.setHeightForWidth(self.abrirCarpetaBtn.sizePolicy().hasHeightForWidth())
+        self.abrirCarpetaBtn.setSizePolicy(sizePolicy2)
+
+        self.horizontalLayout_3.addWidget(self.abrirCarpetaBtn)
+
+
+        self.verticalLayout_2.addLayout(self.horizontalLayout_3)
+
 
         self.retranslateUi(project)
 
@@ -236,5 +264,7 @@ class Ui_project(object):
         self.licenciaLabel.setText(QCoreApplication.translate("project", u"Licencia", None))
         self.commitsLabel.setText(QCoreApplication.translate("project", u"Commits", None))
         self.creadorLabel.setText(QCoreApplication.translate("project", u"Creador", None))
+        self.actualizarInformacionBtn.setText(QCoreApplication.translate("project", u"Actualizar informaci\u00f3n", None))
+        self.abrirCarpetaBtn.setText(QCoreApplication.translate("project", u"Abrir carpeta", None))
     # retranslateUi
 

@@ -5,6 +5,7 @@ from pathlib import Path
 
 import git
 import qdarktheme
+from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QFileDialog, QWidget, QMessageBox
 
 from Ui_clone import Ui_clone
@@ -19,9 +20,9 @@ class Clone(QWidget):
 
         self.home = str(Path.home())
 
-        self.config()
+        self.load_config()
 
-    def config(self):
+    def load_config(self):
         if self.darkTheme:
             self.cambiar_oscuro()
         else:

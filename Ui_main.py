@@ -26,16 +26,16 @@ class Ui_gitManager(object):
         if not gitManager.objectName():
             gitManager.setObjectName(u"gitManager")
         gitManager.resize(800, 600)
-        self.actionConfig = QAction(gitManager)
-        self.actionConfig.setObjectName(u"actionConfig")
-        self.actionAcerca_de = QAction(gitManager)
-        self.actionAcerca_de.setObjectName(u"actionAcerca_de")
         self.actionClaro = QAction(gitManager)
         self.actionClaro.setObjectName(u"actionClaro")
         self.actionClaro.setCheckable(True)
         self.actionOscuro = QAction(gitManager)
         self.actionOscuro.setObjectName(u"actionOscuro")
         self.actionOscuro.setCheckable(True)
+        self.actionSalir = QAction(gitManager)
+        self.actionSalir.setObjectName(u"actionSalir")
+        self.actionToken = QAction(gitManager)
+        self.actionToken.setObjectName(u"actionToken")
         self.centralwidget = QWidget(gitManager)
         self.centralwidget.setObjectName(u"centralwidget")
         self.gridLayout = QGridLayout(self.centralwidget)
@@ -138,19 +138,18 @@ class Ui_gitManager(object):
         self.menuArchivo.setObjectName(u"menuArchivo")
         self.menuModo = QMenu(self.menuArchivo)
         self.menuModo.setObjectName(u"menuModo")
-        self.menuAyuda = QMenu(self.menubar)
-        self.menuAyuda.setObjectName(u"menuAyuda")
         gitManager.setMenuBar(self.menubar)
         self.statusbar = QStatusBar(gitManager)
         self.statusbar.setObjectName(u"statusbar")
         gitManager.setStatusBar(self.statusbar)
 
         self.menubar.addAction(self.menuArchivo.menuAction())
-        self.menubar.addAction(self.menuAyuda.menuAction())
         self.menuArchivo.addAction(self.menuModo.menuAction())
+        self.menuArchivo.addAction(self.actionToken)
+        self.menuArchivo.addSeparator()
+        self.menuArchivo.addAction(self.actionSalir)
         self.menuModo.addAction(self.actionClaro)
         self.menuModo.addAction(self.actionOscuro)
-        self.menuAyuda.addAction(self.actionAcerca_de)
 
         self.retranslateUi(gitManager)
 
@@ -159,8 +158,6 @@ class Ui_gitManager(object):
 
     def retranslateUi(self, gitManager):
         gitManager.setWindowTitle(QCoreApplication.translate("gitManager", u"github", None))
-        self.actionConfig.setText(QCoreApplication.translate("gitManager", u"Configuraci\u00f3n", None))
-        self.actionAcerca_de.setText(QCoreApplication.translate("gitManager", u"Acerca de", None))
         self.actionClaro.setText(QCoreApplication.translate("gitManager", u"Claro", None))
 #if QT_CONFIG(tooltip)
         self.actionClaro.setToolTip(QCoreApplication.translate("gitManager", u"Activa el modo claro de la aplicaci\u00f3n", None))
@@ -169,6 +166,8 @@ class Ui_gitManager(object):
 #if QT_CONFIG(tooltip)
         self.actionOscuro.setToolTip(QCoreApplication.translate("gitManager", u"Activa el modo oscuro en la aplicaci\u00f3n", None))
 #endif // QT_CONFIG(tooltip)
+        self.actionSalir.setText(QCoreApplication.translate("gitManager", u"Salir", None))
+        self.actionToken.setText(QCoreApplication.translate("gitManager", u"Token", None))
 #if QT_CONFIG(tooltip)
         self.labelTusProyectos.setToolTip(QCoreApplication.translate("gitManager", u"<html><head/><body><p>Muestra los proyectos que se encuentran detro de la ruta de b\u00fasqueda</p></body></html>", None))
 #endif // QT_CONFIG(tooltip)
@@ -196,6 +195,5 @@ class Ui_gitManager(object):
         self.btnInfo.setText("")
         self.menuArchivo.setTitle(QCoreApplication.translate("gitManager", u"Archivo", None))
         self.menuModo.setTitle(QCoreApplication.translate("gitManager", u"Modo", None))
-        self.menuAyuda.setTitle(QCoreApplication.translate("gitManager", u"Ayuda", None))
     # retranslateUi
 

@@ -192,27 +192,13 @@
      <addaction name="actionOscuro"/>
     </widget>
     <addaction name="menuModo"/>
-   </widget>
-   <widget class="QMenu" name="menuAyuda">
-    <property name="title">
-     <string>Ayuda</string>
-    </property>
-    <addaction name="actionAcerca_de"/>
+    <addaction name="actionToken"/>
+    <addaction name="separator"/>
+    <addaction name="actionSalir"/>
    </widget>
    <addaction name="menuArchivo"/>
-   <addaction name="menuAyuda"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
-  <action name="actionConfig">
-   <property name="text">
-    <string>Configuración</string>
-   </property>
-  </action>
-  <action name="actionAcerca_de">
-   <property name="text">
-    <string>Acerca de</string>
-   </property>
-  </action>
   <action name="actionClaro">
    <property name="checkable">
     <bool>true</bool>
@@ -233,6 +219,16 @@
    </property>
    <property name="toolTip">
     <string>Activa el modo oscuro en la aplicación</string>
+   </property>
+  </action>
+  <action name="actionSalir">
+   <property name="text">
+    <string>Salir</string>
+   </property>
+  </action>
+  <action name="actionToken">
+   <property name="text">
+    <string>Token</string>
    </property>
   </action>
  </widget>

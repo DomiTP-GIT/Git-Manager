@@ -6,10 +6,12 @@ from pathlib import Path
 import qdarktheme
 from PySide6.QtCore import Slot, QThreadPool, QSize
 from PySide6.QtGui import QIcon, QActionGroup, QKeySequence, QMovie
-from PySide6.QtWidgets import QApplication, QMainWindow, QAbstractItemView, QListWidgetItem, QFileDialog, QWidget
+from PySide6.QtWidgets import QApplication, QMainWindow, QAbstractItemView, QListWidgetItem, QFileDialog, QWidget, \
+    QMessageBox, QInputDialog, QAbstractButton
 
 from Ui_main import Ui_gitManager
 from clone import Clone
+from config_files import Config
 from project import Project
 
 
@@ -26,14 +28,16 @@ class GitManager(QMainWindow):
         self.clonar = QWidget()
         self.proyecto = QWidget()
 
+        self.config = Config()
+
         # Carga la configuración
-        self.config()
+        self.load_config()
 
         # Carga los proyectos
         self.thread_load_projects()
 
     # Configura inicialmente la ventana y los componentes que tiene
-    def config(self):
+    def load_config(self):
         self.setWindowTitle("Git Manager")
         self.setWindowIcon(QIcon(os.path.join(os.path.dirname(__file__), "resources/git-manager.png")))
 
@@ -69,6 +73,10 @@ class GitManager(QMainWindow):
         self.ui.actionOscuro.triggered.connect(self.cambiar_oscuro)
         self.ui.actionOscuro.setChecked(True)
         self.cambiar_oscuro()
+
+        self.ui.actionToken.triggered.connect(self.token)
+        self.ui.actionSalir.triggered.connect(self.close)
+
 
     @Slot()
     def load_projects(self):
@@ -113,8 +121,31 @@ class GitManager(QMainWindow):
         self.clonar.show()
 
     def project(self, project):
+        if not self.config.is_token_saved():
+            self.add_token()
         self.proyecto = Project(project, self.ui.actionOscuro.isChecked())
         self.proyecto.show()
+
+    def add_token(self):
+        token = QMessageBox()
+        token.setIcon(QMessageBox.Warning)
+        token.setWindowTitle("Token")
+        token.setText("No tienes un token de github establecido")
+        token.setInformativeText("¿Quieres establecer un token ahora?")
+        token.setDetailedText("Para usar la API de Github es recomendable el uso de un token. \nSi usas un token, "
+                              "tienes acceso a ver la información de tus repositorios privados y puedes enviar más "
+                              "peticiones a la API de Github (5000 peticiones por hora).\nSi no estableces un token, "
+                              "solo tendrás acceso a la información de los repositorios públicos y estarás limitado a "
+                              "60 peticiones por hora. \nObtén tú token:\nhttps://bit.ly/token_github")
+        token.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
+        res = token.exec()
+        if res == QMessageBox.Yes:
+            self.token()
+
+    def token(self):
+        text, ok = QInputDialog.getText(self, 'Token', 'Tú token:',text=self.config.get_token())
+        if ok:
+            self.config.set_token(text)
 
     def cambiar_claro(self):
         self.setStyleSheet(qdarktheme.load_stylesheet("light"))
@@ -137,6 +168,9 @@ class GitManager(QMainWindow):
                                                        font: 700 18pt "Segoe UI";
                                                        }
                                                        """)
+
+    def closeEvent(self, event):
+        quit()
 
 
 if __name__ == "__main__":
