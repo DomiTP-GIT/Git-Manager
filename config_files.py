@@ -9,9 +9,16 @@ class Config:
             self.create_file()
 
     def file_exists(self):
+        """
+        Comprueba si un fichero existe
+        :return: True si existe, False si no existe
+        """
         return os.path.exists(self.file)
 
     def create_file(self):
+        """
+        Crea un archivo config.ini, lo llena y lo guarda
+        """
         config = ConfigParser()
         config.read(self.file)
         config.add_section('token')
@@ -20,11 +27,19 @@ class Config:
             config.write(configfile)
 
     def get_token(self):
+        """
+        Obtiene el token del archivo ini
+        :return: token
+        """
         config = ConfigParser()
         config.read(self.file)
         return config['token']['github_token']
 
     def set_token(self, token):
+        """
+        Establece un nuevo token
+        :param token: nuevo token
+        """
         config = ConfigParser()
         config.read(self.file)
         config.set('token', 'github_token', token)
@@ -32,6 +47,10 @@ class Config:
             config.write(configfile)
 
     def is_token_saved(self):
+        """
+        Comprueba si hay un token guardado
+        :return: True si hay token, False si no hay
+        """
         if self.get_token() == '':
             return False
         return True

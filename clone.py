@@ -17,11 +17,15 @@ class Clone(QWidget):
         self.ui = Ui_clone()
         self.ui.setupUi(self)
 
+        # Home del usuario
         self.home = str(Path.home())
 
         self.load_config()
 
     def load_config(self):
+        """
+        Configura algunos widgets de la ventana principal
+        """
         if self.darkTheme:
             self.cambiar_oscuro()
         else:
@@ -36,12 +40,21 @@ class Clone(QWidget):
         self.ui.btnSeleccionarArchivos.clicked.connect(self.ruta_archivo)
 
     def cambiar_claro(self):
+        """
+        Cambia el tema de la ventana a claro
+        """
         self.setStyleSheet(qdarktheme.load_stylesheet("light"))
 
     def cambiar_oscuro(self):
+        """
+        Cambia el tema de la ventana a oscuro
+        """
         self.setStyleSheet(qdarktheme.load_stylesheet())
 
     def activar_clonar(self):
+        """
+        Comprueba que se den todas las condiciones para activar el botón de clonar
+        """
         self.ui.labelRutaGuardadoError.setText("")
         self.ui.labelRutaArchivoError.setText("")
         if (len(self.ui.urlText.toPlainText()) > 0 or len(self.ui.editRutaArchivo.text()) > 0) and len(
@@ -51,16 +64,27 @@ class Clone(QWidget):
             self.ui.btnClonar.setEnabled(False)
 
     def ruta_guardado(self):
+        """
+        Obtiene la ruta de guardado
+        """
         nueva_ruta = QFileDialog.getExistingDirectory(self, "Seleccionar carpeta", self.home)
         if nueva_ruta:
             self.ui.editRutaGuardado.setText(nueva_ruta)
 
     def ruta_archivo(self):
+        """
+        Obtienen la ruta del archivo de repositorios
+        """
         nueva_ruta = QFileDialog.getOpenFileName(self, "Abrir Archivo", "", "Text Files (*.txt)")
         if nueva_ruta:
             self.ui.editRutaArchivo.setText(nueva_ruta[0])
 
     def comprobar_url(self, url):
+        """
+        Comprueba que la url del repositorio sea correcta
+        :param url: url
+        :return: True si es correcta, false si no es correcta
+        """
         valid = False
         if re.search("((git|ssh|http(s)?)|(git@[\w\.]+))(:(//)?)([\w\.@\:/\-~]+)(\.git)(/)?", url):
             valid = True
@@ -69,6 +93,10 @@ class Clone(QWidget):
         return valid
 
     def comprobar_ruta_guardado(self):
+        """
+        Comprueba si la ruta de guardado es correcta y tienes los permisos necesarios
+        :return: True si todo está correcto, false si hay algún problema
+        """
         directorio = self.ui.editRutaGuardado.text()
         ok = False
         if os.path.exists(directorio):
@@ -84,6 +112,11 @@ class Clone(QWidget):
         return ok
 
     def comprobar_archivo_repositorios(self, archivo):
+        """
+        Comprueba si la ruta del archivo de repositorios es correcto y tienes los permisos necesarios
+        :param archivo: ruta del archivo
+        :return: True si todo está correcto, false si hay algún problema
+        """
         ok = False
         if os.path.exists(archivo):
             if os.path.isfile(archivo):
@@ -98,6 +131,11 @@ class Clone(QWidget):
         return ok
 
     def confirm_dialog(self, bad_repos):
+        """
+        Diálogo para indicar que tiene repositorios incorrectos
+        :param bad_repos: lista de repositorios incorrectos
+        :return: True si quiere continuar o false si no quiere
+        """
         confirm = QMessageBox()
         confirm.setIcon(QMessageBox.Warning)
         confirm.setWindowTitle("Clonar")
@@ -113,9 +151,13 @@ class Clone(QWidget):
             return False
 
     def clonar(self):
+        """
+        Clona los repositorios
+        """
         if self.comprobar_ruta_guardado():
             repos = []
             bad_repos = []
+            # Obtener repositorios escritos a mano
             if len(self.ui.urlText.toPlainText()) > 0:
                 tmp = self.ui.urlText.toPlainText().split('\n')
                 for repo in tmp:
@@ -123,6 +165,7 @@ class Clone(QWidget):
                         repos.append(repo)
                     else:
                         bad_repos.append(repo)
+            # Obtener los repositorios escritos en el archivo
             if len(self.ui.editRutaArchivo.text()) > 0 and self.comprobar_archivo_repositorios(
                     self.ui.editRutaArchivo.text()):
                 with open(self.ui.editRutaArchivo.text()) as f:
