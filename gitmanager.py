@@ -7,7 +7,7 @@ import qdarktheme
 from PySide6.QtCore import Slot, QThreadPool, QSize
 from PySide6.QtGui import QIcon, QActionGroup, QKeySequence, QMovie
 from PySide6.QtWidgets import QApplication, QMainWindow, QAbstractItemView, QListWidgetItem, QFileDialog, QWidget, \
-    QMessageBox, QInputDialog, QAbstractButton
+    QMessageBox, QInputDialog
 
 from Ui_main import Ui_gitManager
 from clone import Clone
@@ -54,6 +54,7 @@ class GitManager(QMainWindow):
         self.ui.btnRuta.clicked.connect(self.get_route)
         self.ui.btnUpdate.clicked.connect(self.thread_load_projects)
         self.ui.btnClonar.clicked.connect(self.clone)
+        self.ui.projects.clicked.connect(self.item_clicked)
         self.ui.rutaEdit.setText(self.ruta_buscar)
         self.ui.btnUpdate.setShortcut(QKeySequence("F5"))
         self.ui.btnUpdate.setShortcut(QKeySequence("Ctrl+R"))
@@ -77,7 +78,6 @@ class GitManager(QMainWindow):
         self.ui.actionToken.triggered.connect(self.token)
         self.ui.actionSalir.triggered.connect(self.close)
 
-
     @Slot()
     def load_projects(self):
         self.ui.projects.clear()
@@ -92,7 +92,6 @@ class GitManager(QMainWindow):
                         self.ui.projects.addItem(item)
                 else:
                     print(d + " No permission")
-        self.ui.projects.clicked.connect(self.item_clicked)
         self.ui.loadingGif.setHidden(True)
         self.ui.btnUpdate.setEnabled(True)
 
@@ -143,7 +142,7 @@ class GitManager(QMainWindow):
             self.token()
 
     def token(self):
-        text, ok = QInputDialog.getText(self, 'Token', 'Tú token:',text=self.config.get_token())
+        text, ok = QInputDialog.getText(self, 'Token', 'Tú token:', text=self.config.get_token())
         if ok:
             self.config.set_token(text)
 

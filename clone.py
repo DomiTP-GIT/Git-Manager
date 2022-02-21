@@ -5,7 +5,6 @@ from pathlib import Path
 
 import git
 import qdarktheme
-from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QFileDialog, QWidget, QMessageBox
 
 from Ui_clone import Ui_clone
@@ -150,6 +149,6 @@ class Clone(QWidget):
                                 git.Repo.clone_from(repo, os.path.join(guardado, repo_name))
                             except:
                                 print("Error al clonar un repositorio")
-                            dlg = QMessageBox(self)
-                            dlg.information(self, "Clonado", "El clonado de los repositorios ha finalizado.",
-                                            QMessageBox.Ok)
+                    dlg = QMessageBox(self)
+                    dlg.information(self, "Clonado", "El clonado de los repositorios ha finalizado.",
+                                    QMessageBox.Ok)

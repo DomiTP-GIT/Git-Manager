@@ -12,7 +12,6 @@ from git import Repo
 from github import Github
 from matplotlib import pyplot as plt
 from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg
-from matplotlib.figure import Figure
 
 from Ui_project import Ui_project
 from config_files import Config
